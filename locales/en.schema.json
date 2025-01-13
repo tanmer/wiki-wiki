@@ -1,0 +1,75 @@
+{
+  "settings_schema": {
+    "generic": {
+      "name": "Basic Setting",
+      "help_center_index_description": "Ideal for feature-rich product user manuals",
+      "list_index_description": "list dictionary style",
+      "header_name": "Header and footer menu",
+      "head_title": "Head HTML Settings",
+      "settings": {
+        "hero_image_url": {
+          "label": "Hero Banner",
+          "info": "For the help center index theme, size of 1900*600px is recommended."
+        },
+        "title": {
+          "label": "site title"
+        },
+        "description": {
+          "label": "site description"
+        },
+        "hot_tags": {
+            "label": "Hot search keywords (please separate them with English comma: ,)"
+        },
+        "company_name": {
+          "label": "Company Name",
+          "default": "Tanmer Inc."
+        },
+        "copyright_info": {
+          "label": "Copyright Info",
+          "default": "All copyright served"
+        },
+        "header_menu_html": {
+          "label": "Header navigation menu",
+          "info": "Supports HTML、Javascript and TailwindCss code"
+        },
+        "features_one": {
+          "label": "HTML Section 1(features_one)",
+          "info": "Supports HTML、Javascript and TailwindCss code"
+        },
+        "features_two": {
+          "label": "HTML Section 2(features_two)",
+          "info": "Supports HTML、Javascript and TailwindCss code"
+        },
+        "footer_menu_html": {
+          "label": "Footer navigation menu",
+          "info": "Supports HTML、Javascript and TailwindCss code"
+        },
+        "head_html": {
+          "label": "Head HTML Code",
+          "info": "This part of the content will be embedded in the <head> tag of the site. Please use standard HTML format.",
+          "placeholder": "<meta name='author' content='Baklib' />"
+        }
+      }
+    },
+    "page": {
+      "name": "Page",
+      "description": "Document content page",
+      "settings": {
+        "description":{
+          "label": "Description"
+        },
+        "content":{
+          "label": "Content",
+          "info": "Synchronized from data source, cannot be edited"
+        },
+        "icon": {
+          "label": "ICON",
+          "info": "1:1 ratio is recommended"
+        },
+        "tags":{
+          "label": "Tags"
+        }
+      }
+    }
+  }
+}

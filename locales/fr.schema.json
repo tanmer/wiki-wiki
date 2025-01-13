@@ -1,0 +1,75 @@
+{
+  "settings_schema": {
+    "generic": {
+      "name": "Réglage de base",
+      "help_center_index_description": "Idéal pour les manuels d'utilisation de produits riches en fonctionnalités",
+      "list_index_description": "style de dictionnaire de liste",
+      "header_name": "Menu d'en-tête et de pied de page",
+      "head_title": "Paramètres HTML de la tête",
+      "settings": {
+        "hero_image_url": {
+          "label": "Bannière de héros",
+          "info": "Pour le thème d’index du centre d’aide, une taille de 1 900 x 600 px est recommandée."
+        },
+        "title": {
+          "label": "Titre du site"
+        },
+        "description": {
+          "label": "Description du site"
+        },
+        "hot_tags": {
+          "label": "Mots-clés de recherche chauds (veuillez les séparer par une virgule anglaise : ,)"
+        },
+        "company_name": {
+          "label": "Nom de l'entreprise",
+          "default": "Tanmer inc."
+        },
+        "copyright_info": {
+          "label": "Informations sur les droits d'auteur",
+          "default": "Tous les droits d'auteur sont respectés"
+        },
+        "header_menu_html": {
+          "label": "Menu de navigation de l'en-tête",
+          "info": "Prend en charge le code HTML、Javascript et TailwindCss"
+        },
+        "features_one": {
+          "label": "HTML Section 1(features_one)",
+          "info": "Supports HTML、Javascript and TailwindCss code"
+        },
+        "features_two": {
+          "label": "HTML Section 2(features_two)",
+          "info": "Supports HTML、Javascript and TailwindCss code"
+        },
+        "footer_menu_html": {
+          "label": "Menu de navigation en pied de page",
+          "info": "Prend en charge le code HTML、Javascript et TailwindCss"
+        },
+        "head_html": {
+          "label": "Tête Code HTML",
+          "info": "Cette partie du contenu sera intégrée dans le <head> balise du site. ",
+          "placeholder": "<meta name='author' content='Baklib' />"
+        }
+      }
+    },
+    "page": {
+      "name": "Page",
+      "description": "Page de contenu du document",
+      "settings": {
+        "description": {
+          "label": "Description"
+        },
+        "content": {
+          "label": "Contenu",
+          "info": "Synchronisé à partir de la source de données, ne peut pas être modifié"
+        },
+        "icon": {
+          "label": "ICÔNE",
+          "info": "Un rapport 1:1 est recommandé"
+        },
+        "tags": {
+          "label": "Mots clés"
+        }
+      }
+    }
+  }
+}

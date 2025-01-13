@@ -1,0 +1,25 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm-run-all --parallel build:css build:js",
+    "build:css": "npx tailwindcss -i ./src/main.css -o ./assets/css/main.css",
+    "build:js": "npx esbuild ./src/main.js --bundle --minify --outfile=./assets/javascripts/main.js",
+    "dev": "npm-run-all --parallel 'build:css -- --watch' 'build:js -- --watch'"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.3",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.3.3",
+    "viewerjs": "^1.11.6"
+  },
+  "dependencies": {
+    "@alpinejs/collapse": "^3.13.0",
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo": "^7.3.0",
+    "@stimulus-components/clipboard": "^5.0.0",
+    "alpinejs": "^3.13.0",
+    "stimulus-dropdown": "^2.1.0"
+  }
+}

@@ -1,0 +1,15 @@
+{% assign children_count = page.children_in_list | size %}
+{% if children_count > 0 %}
+    <a name="{{ page.id }}"></a>
+    <h1 class="text-5xl my-4">{{ page.link_text }} </h1>
+
+    {{ page.settings.content }}
+  {% for page in page.children_in_list %}
+    {% render 'export_page', page: page %}
+  {% endfor %}
+{% else %}
+    <a name="{{ page.id }}"></a>
+    <h1 class="text-5xl my-4">{{ page.link_text }} </h1>
+
+    {{ page.settings.content }}
+{% endif %}

@@ -1,0 +1,54 @@
+<!-- locals: pages: 搜索返回结果, keywords: 搜索关键词 -->
+{% assign screen_width = site.settings.screen_width.value |  default: 'max-w-screen-xl' %}
+
+<!-- locals: pages: 搜索返回结果, keywords: 搜索关键词 search.extends - 自定义结果集  search.page_number - 当前分页的页码 -->
+<main class="grow">
+
+  <div class="relative px-4 mx-auto {{ screen_width }} sm:px-6">
+
+    <!-- Main content -->
+    <div class="pb-8 w-5xl">
+
+      <!-- Page header -->
+      <div class="flex justify-between my-2 md:my-8">
+        <a href="javascript: history.back();" class="mr-auto font-medium inline-flex items-center rounded-full px-4 py-2 bg-gray-100 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2">
+            <path fill="currentColor"
+              d="M16.707 19.293 9.414 12l7.293-7.293-1.414-1.414L6.586 12l8.707 8.707 1.414-1.414z"></path>
+          </svg>
+          <span class="text-xs md:text-sm font-medium">{{ "generic.back" | t }}</span>
+        </a>
+        <div></div>
+      </div>
+
+      <div class="space-y-3 ">
+        {% if search.page_number == 1 %}
+          {% for link in search.extends %}
+            <div class="space-y-4 md:p-4 border-b border-accent dark:hover:bg-gray-600 hover:bg-accent-100">
+              <a class="text-lg font-bold md:text-xl text-slate-800 hover:text-secondary dark:text-slate-200 search-highlight-block" href="{{ link.url }}">{{ link.link_text }}</a>
+              <p class="text-sm line-clamp-3 text-slate-400 search-highlight-block">{{ link.url }}</p>
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% paginate_tag search.pages, as: 'pages', per: 10 %}
+          {% for page in pages %}
+            <div class="space-y-4 md:p-4 border-b border-accent dark:hover:bg-gray-600 hover:bg-accent-100">
+              <a class="text-lg font-bold md:text-xl text-slate-800 hover:text-secondary dark:text-slate-200 search-highlight-block" href="{{ page.path }}">{{ page.highlighted_search_title }}</a>
+              <p class="text-sm line-clamp-3 text-slate-400 search-highlight-block">{{ page.highlighted_search_content }}</p>
+              <div class="flex items-center justify-between">
+                <div class="breadcrumbs hidden overflow-x-auto md:block text-sm">
+                  {% render 'breadcrumb', breadcrumb: page.breadcrumb %}
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="w-full mx-auto my-8">{{ "search.no_results" | t: 'No results found' }}</div>
+          {% endfor %}
+          {% render 'paginate', paginate: paginate %}
+        {% endpaginate_tag %}
+      </div>
+
+    </div>
+  </div>
+  {% render 'footer', settings: site.settings %}
+</main>

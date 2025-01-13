@@ -1,0 +1,313 @@
+{% assign default_hero_image = 'images/hero.jpg' | asset_url %}
+{% assign default_icon = 'images/icon.svg' | asset_url %}
+
+{% assign hot_tags = page.settings.hot_tags | split: ',' %}
+{% assign screen_width = site.settings.screen_width.value |  default: 'max-w-screen-xl' %}
+{% assign card_pages = site.pages['/'].children_in_nav_menu  | limit: 24 %}
+
+<!--prepare class for yarn build -->
+<div class="mx-auto max-w-screen-lg "></div>
+<div class="mx-auto max-w-screen-xl "></div>
+<div class="mx-auto max-w-screen-2xl"></div>
+
+<!-- Feature One Section -->
+{% if site.settings.features_one %}
+  <section class="mx-auto {{ screen_width }} px-4 sm:px-6">
+    {{ site.settings.features_one }}
+  </section>
+{% endif %}
+
+<section class="relative bg-slate-100 dark:bg-slate-900">
+  <!-- Hero Section -->
+  <section id="hero" class="flex items-center justify-center flex-col bg-no-repeat bg-cover bg-center bg-primary/40 dark:bg-primary/120 h-[250px]  {% if screen_width == 'max-w-screen-2xl' %}  md:h-[500px] {% else %}  md:h-[300px] {%- endif -%}"
+  style="background-image: url({{ page.settings.hero_image_url | default: default_hero_image }})">
+    <div class="flex items-center justify-center flex-1 w-full py-3">
+      <div class="container flex flex-col h-full px-4 mx-auto">
+        <div class="flex flex-col items-center justify-center flex-grow">
+          <h1 class="py-2 mt-12 text-2xl md:text-4xl font-bold text-white transition duration-500 md:mt-0 text-shadow">
+            {{ site.name }}
+          </h1>
+          <p class="py-2 text-base text-white transition duration-500 text-shadow">{{ page.settings.description }}</p>
+
+          <div class="z-0 flex flex-col items-center justify-center w-full md:w-2/3">
+            {% form_tag 'search', class: 'w-full' %}
+              <div class="relative rounded-2xl shadow-sm">
+                <button type="submit" class="absolute inset-y-0 right-0 flex items-center pl-4 pr-3 sm:right-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" > <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /> </svg>
+                </button>
+                <input
+                  type="text"
+                  name="{{form.keywords_field_name}}" value="{{ search.keywords | escape_once }}"
+                  placeholder="{{ "placeholders.search" | t }}"
+                  autocomplete="off"
+                  class="block w-full h-10 md:h-12 lg:h-14 pl-3 pr-10 transition duration-300 ease-in-out bg-white bg-opacity-75 dark:text-primary border border-transparent rounded outline-none focus:ring-0 focus:border-primary sm:pl-12 sm:text-lg focus:bg-opacity-90"
+                >
+              </div>
+            {% endform_tag %}
+
+            <!-- 热门标签 -->
+            {% if page.settings.tags.size > 0 %}
+              <div class="items-center justify-start hidden w-full mt-4 md:flex flex-wrap">
+                <div class="inline-block">
+                  <span class="text-white mr-3">{{ 'generic.tags' | t }}：</span>
+                  {% for tag in page.settings.tags %}
+                    <a
+                      href="{{ tag.path }}"
+                      data-turbo-frame="_top"
+                      class="mr-3 text-white hover:text-primary focus:ring hover:-translate-y-[2px] min-w-12"
+                    >
+                      {{ tag.name }}
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+
+            <!-- 热门搜索 -->
+            <div class="items-center justify-start hidden w-full mt-4 md:flex">
+              <div class="inline-block">
+                <span class="mr-3 text-white">{{ 'generic.popular_search' | t }}:</span>
+                {% for search_hot_key in hot_tags %}
+                  <a
+                    href="{{site.index_path}}-/search?q={{ search_hot_key }}"
+                    class="mr-3 text-white hover:text-primary focus:ring hover:-translate-y-[2px]"
+                  >
+                    {{ search_hot_key }}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Channel Section -->
+  {% if site.settings.show_channel_section %}
+    {% assign channel_pages = site.pages['/'].children_in_list  | limit: 50 %}
+    <section class="bg-transparent">
+      <div class="mx-auto {{ screen_width }} px-4 mt-4 sm:px-6">
+        <div class="flex items-center h-8 mb-8 text-2xl font-bold text-slate-800 dark:text-slate-200">
+          <div class="w-1 h-full mr-3 bg-primary"></div>
+          <span>{{ 'generic.channel_pages' | t }}</span>
+        </div>
+        <div class="items-start lg:max-w-none grid grid-cols-2 gap-3 md:grid-cols-6 lg:grid-cols-8 lg:gap-2">
+            {% for channel_page in channel_pages %}
+              <a href="{{ channel_page.path }}" class="flex flex-col text-center items-center text-md h-full px-2 py-4 bg-white hover:bg-blue-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-md overflow-hidden">
+                {% if channel_page.settings.icon %}
+                  <span class=""><img src="{{ channel_page.settings.icon | default: default_icon }}" class="h-8"/> </span>
+                {% else %}
+                  <span class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 w-8 h-8 text-primary">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                    </svg>
+                  </span>
+                {% endif %}
+                <h3 class="line-clamp-1 mt-1">{{ channel_page.link_text }}</h3>
+              </a>
+            {% endfor %}
+          </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Newest Section -->
+  {% if site.settings.show_newest_section %}
+    {% assign newest_pages = site.pages['/'].pages_in_list | order_by: '-created_at' | limit: 10 %}
+    <section class="bg-transparent">
+      <div class="mx-auto {{ screen_width }} px-4 mt-8 sm:px-6">
+        <div class="pt-4 pb-4">
+          
+          <div class="flex items-center h-8 mb-8 text-2xl font-bold text-slate-800 dark:text-slate-200">
+            <div class="w-1 h-full mr-3 bg-primary"></div>
+            <span>{{ 'generic.newest_pages' | t }}</span>
+          </div>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 p-4 gap-y-4 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-md overflow-hidden">
+            {% for sub_page in newest_pages %}
+              <a class="flex items-center justify-between transition transform group"
+                href="{{ sub_page.path }}">
+                <div class="flex">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 transition group-hover:text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                  <h6 class="ml-2 transition text-gray-550 group-hover:text-primary">
+                    {{ sub_page.link_text }}
+                  </h6>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 w-5 h-5 mr-4 text-gray-500 transition group-hover:text-primary group-hover:translate-x-3 md:transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Pages Section -->
+  <section class="bg-transparent">
+    <div class="mx-auto {{ screen_width }} px-4 mt-8 sm:px-6">
+      {% # 列表指南- Guide %}
+      <div class="flex items-center h-8 mb-8 text-2xl font-bold text-slate-800 dark:text-slate-200">
+        <div class="w-1 h-full mr-3 bg-primary"></div>
+        <span>{{ 'generic.recommend_pages' | t }}</span>
+      </div>
+      <div class="items-start lg:max-w-none grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-16">
+        {% for card_page in card_pages %}
+          <!-- Card -->
+          <div class="flex flex-col h-full bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-md overflow-hidden">
+            <!-- Image -->
+            <!-- Card Content -->
+            <div class="flex-1 flex flex-col p-6">
+                <!-- Card body -->
+                <div class="flex-1">
+                    <!-- Header -->
+                    <header class="mb-2">
+                      <div class="flex items-center justify-start">
+                        {% if site.settings.show_card_icon %}
+                          {% if site.settings.icon %}
+                            <span class="mr-2"><img src="{{ card_page.settings.icon | default: default_icon }}" class="h-8"/> </span>
+                          {% else %}
+                            <span class="mr-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 w-8 h-8 text-primary">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                              </svg>
+                            </span>
+                          {% endif %}
+                        {% endif %}
+                        <a class="text-xl font-semibold hover:text-primary" href="{{ card_page.path }}">
+                          <h3 class="line-clamp-1">{{ card_page.link_text }}</h3>
+                        </a>
+                      </div>
+                    </header>
+                    <!-- Content -->
+                    <div class="my-4">
+                      <ul>
+                        {% assign limit_page_count = page.settings.index_card_page_count | default: 5 %}
+                        {% assign sub_pages = card_page.children_in_list | limit: limit_page_count %}
+                        {% for sub_page in sub_pages %}
+                          <li class="mt-2 truncate">
+                            <a
+                              href="{{ sub_page.path }}"
+                              class="relative transition duration-500 group text-gray-550 text-tiny hover:text-primary"
+                            >
+                              <span
+                                class="absolute inline-block w-1.5 h-1.5 border-0 bg-gray-400 rounded-full group-hover:bg-primary transition duration-500 top-2"
+                              ></span>
+                              <span class="ml-4 line-clamp-1">{{ sub_page.link_text }}</span>
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <!-- Card footer -->
+                <div class="flex justify-end space-x-2 border-t border-slate-200 dark:border-gray-700 pt-3 md:pt-5">
+                  <a href="{{ card_page.path }}" class="cursor-pointer text-primary">{{ 'generic.read_more' | t}}</a>
+                </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>      
+    </div>
+  </section>
+
+  <!-- Hottest Section-->
+  {% if site.settings.show_hottest_section %}
+    {% assign hottest_pages = site.pages['/'].pages_in_list | order_by: '-visits_count' | limit: 10 %}
+    <section class="bg-transparent">
+      <div class="mx-auto {{ screen_width }} px-4 mt-8 sm:px-6">
+        <div class="pt-4 pb-8 mt-8 lg:mt-14 lg:pb-12">
+          
+          <div class="flex items-center h-8 mb-8 text-2xl font-bold text-slate-800 dark:text-slate-200">
+            <div class="w-1 h-full mr-3 bg-primary"></div>
+            <span>{{ 'generic.hot_pages' | t }}</span>
+          </div>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 gap-y-4">
+            {% for faq_page in hottest_pages %}
+              <a class="flex items-center justify-between transition transform group"
+                href="{{ faq_page.path }}">
+                <div class="flex">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 transition group-hover:text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                  <h6 class="ml-2 transition text-gray-550 group-hover:text-primary">
+                    {{ faq_page.link_text }}
+                  </h6>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 w-5 h-5 mr-4 text-gray-500 transition group-hover:text-primary group-hover:translate-x-3 md:transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Feature Two Section -->
+  {% if site.settings.features_two %}
+    <section class="mx-auto {{ screen_width }} px-4 mt-8 sm:px-6">
+      {{ site.settings.features_two }}
+    </section>
+  {% endif %}
+
+</section>
+
+{% render 'footer', settings: site.settings %}
+
+{% schema %}
+  {
+    "name": "Help Center",
+    "description": "Ideal for feature-rich product user manuals",
+    "thumb_url": "images/theme/index-help-center.png",
+    "preview_image_urls": [
+      "images/theme/index-help-center.png"
+    ],
+    "sub_page_templates": ["page"],
+    "settings": [
+        {
+          "id": "hero_image_url",
+          "type": "image_picker",
+          "ratio": "19:6",
+          "width": 900,
+          "label": "t:settings_schema.generic.settings.hero_image_url.label",
+          "info": "t:settings_schema.generic.settings.hero_image_url.info"
+        },
+        {
+          "id": "description",
+          "type": "text",
+          "label": "t:settings_schema.generic.settings.description.label",
+          "default": "👋 What Can We Help?"
+        },
+        {
+          "id": "hot_tags",
+          "label": "t:settings_schema.generic.settings.hot_tags.label",
+          "type": "text",
+          "placeholder": "sign in,install,account,how to"
+        },
+        {
+          "id": "tags",
+          "type": "tag_picker",
+          "multiple": true,
+          "label": "t:settings_schema.page.settings.tags.label"
+        },
+        {
+          "id": "index_card_page_count",
+          "type": "number",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 5,
+          "label": "首页列表展示页面数量",
+          "info": ""
+        }
+      ]
+  }
+{% endschema %}

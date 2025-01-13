@@ -1,0 +1,76 @@
+{% assign dom_id = page.id | append: 'navtree' %}
+{% assign expanded = expanded_ids | contains: page.id %}
+{%# assign active = selected_ids | contains: page.id %}
+{% if params.depth %}
+  {% assign depth = params.depth %}
+{% else %}
+  {% assign depth = 0 %}
+{% endif %}
+{% assign children_size = page.children_in_list | size %}
+
+<li
+  id="treeview-item__{{ dom_id }}"
+  x-data="{ expanded: {{ !!expanded }} }"
+  x-init="$watch('expanded', value => { document.getElementById('js-treeview__{{ dom_id }}')._x_dataStack[0].show = value; })"
+  class="group page-tree--node hover:bg-slate-200 rounded-lg"
+>
+  <div class="flex space-x-1">
+    <div style="width: calc(26px * {{ depth }})" class="flex-none justify-center"></div>
+
+    <div class="flex-initial items-center max-w-72 px-1 hover:bg-slate-150 hover:rounded-xl">
+      {% if children_size > 0 %}
+        <div @click="expanded = !expanded" class="flex items-center justify-center cursor-pointer">
+          <svg t="1698224111506"
+          class="w-3 h-3 icon mr-2"
+          :class="{ 'rotate-90': expanded }"
+          p-id="4985"
+          enable-background="new 0 0 15 26" version="1.1" viewBox="0 0 15 26" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#231F20" points="2.019,0.58 -0.035,2.634 10.646,13.316 -0.035,23.997 2.019,26.052 14.755,13.316 "/></svg>
+
+          <a
+            href="{{ page.path }}"
+            data-turbo-frame="main-content"
+            data-turbo-action="advance"
+            class="truncate hover:text-primary"
+            data-action="click->navtree#toggleActive"
+            @click="header_navtree_show=false"
+          >
+            <span>{{ page.link_text | truncate: 160}}</span>
+          </a>
+        </div>
+      {% else %}
+        <a
+          href="{{ page.path }}"
+          data-turbo-frame="main-content"
+          data-turbo-action="advance"
+          class="truncate current hover:text-primary"
+          data-action="click->navtree#toggleActive"
+          @click="header_navtree_show=false"
+        >
+          <span>{{ page.link_text | truncate: 160 }}</span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  {% if children_size > 0 %}
+    <template x-teleport="#js-treeview__{{ dom_id }}">
+      {% assign selected_ids = selected_ids | join: ',' %}
+      {% assign depth = depth | plus: 1 %}
+      <turbo-frame
+        id="frame-treeview__{{ dom_id }}"
+        src="{{ site.nav_tree_path |  append: '?parent=' | append: page.id | append: '&selected_ids=' | append: selected_ids | append: '&depth=' | append: depth }}"
+        loading="lazy"
+      >
+      </turbo-frame>
+    </template>
+  {% endif %}
+</li>
+{% if children_size > 0 %}
+  <ul
+    id="js-treeview__{{ dom_id }}"
+    class="relative"
+    x-data="{ show: {{ !!expanded }} }"
+    x-show="show"
+    x-cloak
+    x-collapse
+  ></ul>
+{% endif %}

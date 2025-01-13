@@ -1,0 +1,144 @@
+{%# 该模板为了解决希望下载打印指定目录下的所有子目录内容 %}
+{%# 实现方法：将顶级栏目模板改为“page.export”，即可输出所有子页面内容 %}
+{%# 涉及到的文件： %}
+{%#   snippets/_export_tree.liquid %}
+{%#   snippets/_export_page.liquid %}
+{%#   templates/page.export.liquid %}
+
+{% layout none %}
+{% assign pages = page.children_in_list | limit: 200 %}
+
+<!doctype html>
+<html lang="{{ site.language }}" class="scroll-smooth h-full">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% meta_tags %}
+    {{ 'javascripts/main.js' | asset_url | script_tag: defer: true, data-turbo-track: 'reload' }}
+    {{ 'css/main.css' | asset_url | stylesheet_tag: data-turbo-track: 'reload' }}
+
+    {%# TIPS：在低代码平台开发时，请打开下一行代码注释 %}
+    {% if true %}{{ 'javascripts/cdn.tailwindcss.js' | asset_url | script_tag: data-turbo-track: 'reload' }} {% endif %}
+    {{ site.settings.head_html }}
+  </head>
+  <body class="h-full">
+    {% paginate_tag pages, per: 200 %}
+      <!-- Static sidebar for desktop -->
+      <div class="flex lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-80 lg:flex-col">
+        <!-- Sidebar component, swap this element with another sidebar if you like -->
+        <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-slate-100 px-6">
+          <div class="flex h-16 shrink-0 items-center">
+            <h1 class="mt-6 text-2xl font-semibold">{{ 'generic.menu' | t}}</h1>
+          </div>
+          <nav class="flex flex-1 flex-col">
+            <ul role="list" class="flex flex-1 flex-col gap-y-0">
+                {% for item in pages %}
+                  {% assign sub_item_count = item.children_in_list | size %}
+                    {% if sub_item_count > 0 %}
+                      <!-- 1st level -->
+                      <li class="mb-1">
+                        <a href="#{{ item.id }}">
+                          <span>{{ item.link_text }}</span>
+                        </a>
+                        <!-- 2nd level -->
+                        <ul class="pl-6 mb-3 ml-4">
+                          {% for sub_item in item.children_in_list %}
+                            {% render "export_tree", item: sub_item %}
+                          {% endfor %}
+                        </ul>
+                      </li>
+                    {% else %}
+                      <!-- 1st level -->
+                      <li class="mb-1">
+                        <a href="#{{item.id}}" class="relative flex items-center justify-between p-1">
+                          <div class="flex items-center space-x-3">
+                            <span>{{ item.link_text }}</span>
+                          </div>
+                          <div class="px-3 grow">
+                            <span class="block border-t border-slate-300"></span>
+                          </div>
+                          <div>
+                          </div>
+                        </a>
+                      </li>
+                    {% endif %}
+                {% endfor %}
+                <!-- Pagination -->
+                <li class="mb-0">
+                  {% render 'paginate', paginate: paginate %}
+                </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <main class="py-10 lg:pl-80">
+        <div class="px-4 sm:px-6 lg:px-8">
+          <turbo-frame id="main-nav-content" data-turbo-action="advance">
+            <article class="ProseMirror">
+              <h1 class="text-6xl my-4">{{ page.link_text }} </h1>
+              {{ page.settings.content }}
+              {% for item in pages %}
+                {% render 'export_page', page: item %}
+              {% endfor %}
+            </article>
+          </turbo-frame>
+        </div>
+      </main>
+      
+    {% endpaginate_tag %}
+  </body>
+</html>
+
+
+{% schema %}
+{
+  "name": "Export Page",
+  "description": "The export page template",
+  "thumb_url": "images/theme/page.png",
+  "sub_page_templates": ["page"],
+  "settings": [
+      {
+        "id": "show_list",
+        "type": "checkbox",
+        "default": "false",
+        "label": "栏目",
+        "info": "作为栏目页面，只显示子页面列表"
+      },
+      {
+        "id": "title",
+        "type": "text",
+        "readonly": true,
+        "label": "标题",
+        "info": "知识库同步，不可编辑"
+      },
+      {
+        "id": "tags",
+        "type": "tag_picker",
+        "multiple": true,
+        "label": "t:settings_schema.page.settings.tags.label"
+      },
+      {
+        "id": "description",
+        "type": "textarea",
+        "label": "t:settings_schema.page.settings.description.label"
+      },
+      {
+        "id": "icon",
+        "type": "image_picker",
+        "ratio": "1:1",
+        "width": 100,
+        "label": "t:settings_schema.page.settings.icon.label",
+        // "required": true, 如果必填就用这个参数
+        "info": "t:settings_schema.page.settings.icon.info"
+      },
+      {
+        "id": "content",
+        "type": "richtext",
+        "label": "t:settings_schema.page.settings.content.label",
+        "readonly": true,
+        "info": "t:settings_schema.page.settings.content.info"
+      }
+  ]
+}
+{% endschema %}

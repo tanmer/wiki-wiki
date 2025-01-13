@@ -1,0 +1,6 @@
+<turbo-frame id="{{ turbo_frame_request_id }}" class="relative hidden md:block">
+  {% assign pages = pages | limit: 200 %}
+  {% for page in pages %}
+    {% render 'tree', page: page, expanded_ids: expanded_ids, selected_ids: selected_ids %}
+  {% endfor %}
+</turbo-frame>

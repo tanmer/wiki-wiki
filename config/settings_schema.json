@@ -1,0 +1,175 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "wiki",
+    "theme_label": "t:theme_label",
+    "theme_version": "1.1.0",
+    "theme_scope": "wiki",
+    "theme_author": "Baklib",
+    "theme_description": "t:theme_description",
+    "theme_documentation_url": "https://help.baklib.cn/themes/wiki",
+    "theme_support_url": "https://help.baklib.cn/themes/wiki/settings",
+    "theme_thumb_url": "images/theme/thumb.png",
+    "theme_preview_images": [
+      "images/theme/wiki.png",
+      "images/theme/index-help-center.png",
+      "images/theme/index-list.png",
+      "images/theme/index-docs.png",
+      "images/theme/page.png"
+    ],
+    "theme_languages": [
+      {
+        "name": "中文简体",
+        "value": "zh-CN"
+      },
+      {
+        "name": "English",
+        "value": "en-US"
+      }
+    ],
+    "recommendations": {
+      "color_schemas": {
+        "fashion": {
+          "name": "时尚",
+          "colors": {
+            "--theme-color-primary": "#03A9F4",
+            "--theme-color-secondary": "#E91E63",
+            "--theme-color-accent": "#AAAAAA",
+            "--theme-color-info": "#2196F3",
+            "--theme-color-success": "#4CAF50",
+            "--theme-color-warning": "#FFC107"
+          }
+        },
+        "old_school": {
+          "name": "复古",
+          "colors": {
+            "--theme-color-primary": "#9C27B0",
+            "--theme-color-secondary": "#673AB7",
+            "--theme-color-accent": "#AAAAAA",
+            "--theme-color-info": "#418CC8",
+            "--theme-color-success": "#29B52F",
+            "--theme-color-warning": "#FFC107"
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "t:settings_schema.generic.name",
+    "settings": [
+      {
+        "id": "company_name",
+        "label": "t:settings_schema.generic.settings.company_name.label",
+        "type": "text",
+        "default": "t:settings_schema.generic.settings.company_name.default"
+      },
+      {
+        "id": "copyright_info",
+        "type": "text",
+        "label": "t:settings_schema.generic.settings.copyright_info.label",
+        "default": "t:settings_schema.generic.settings.copyright_info.default"
+      },
+      {
+        "id": "screen_width",
+        "type": "radio",
+        "label": "页面宽度设置",
+        "choices": [{"label":"窄（max-width: 1024px）","value":"max-w-screen-lg"},{"label":"适中（max-width: 1280px;）","value":"max-w-screen-xl"},{"label":"宽（max-width: 1536px;）","value":"max-w-screen-2xl"}],
+        "default": "max-w-screen-xl"
+      },
+      {
+        "id": "page_bg_type",
+        "type": "radio",
+        "label": "页面背景设置",
+        "choices": [{"label":"无背景色","value":"0"},{"label":"primary+secondary变体渐变","value":"1"},{"label":"primary主色渐变","value":"2"}],
+        "default": "0",
+        "info": "* 跟随站点【主题颜色】设置的 primary/secondary 颜色"
+      },
+      {
+        "id": "show_channel_section",
+        "type": "checkbox",
+        "label": "首页显示栏目导航",
+        "default": true
+      },
+      {
+        "id": "show_card_icon",
+        "type": "checkbox",
+        "label": "首页显示栏目ICON图标",
+        "default": true
+      },
+      {
+        "id": "show_newest_section",
+        "type": "checkbox",
+        "label": "首页显示最新 10 条",
+        "default": false
+      },
+      {
+        "id": "show_hottest_section",
+        "type": "checkbox",
+        "label": "首页显示最热 10 条",
+        "default": true
+      },
+      {
+        "id": "is_allow_published_at",
+        "type": "checkbox",
+        "label": "页面是否展示发布日期",
+        "default": true
+      },
+      {
+        "id": "is_allow_author",
+        "type": "checkbox",
+        "label": "页面是否展示作者信息",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.generic.header_name",
+    "settings": [
+      {
+        "id": "header_menu_html",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.header_menu_html.label",
+        "info": "t:settings_schema.generic.settings.header_menu_html.info",
+        "rows": 6,
+        "placeholder": "<a href='#'> title </a>"
+      },
+      {
+        "id": "footer_menu_html",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.footer_menu_html.label",
+        "info": "t:settings_schema.generic.settings.footer_menu_html.info",
+        "rows": 6,
+        "placeholder": "<a href='#'> title </a>"
+      },
+      {
+        "id": "features_one",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.features_one.label",
+        "info": "t:settings_schema.generic.settings.features_one.info",
+        "rows": 6,
+        "placeholder": "<div>...</div>"
+      },
+      {
+        "id": "features_two",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.features_two.label",
+        "info": "t:settings_schema.generic.settings.features_two.info",
+        "rows": 6,
+        "placeholder": "<div>...</div>"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.generic.head_title",
+    "settings": [
+      {
+        "id": "head_html",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.head_html.label",
+        "info": "t:settings_schema.generic.settings.head_html.info",
+        "rows": 10,
+        "placeholder": "t:settings_schema.generic.settings.head_html.placeholder"
+      }
+    ]
+  }
+]

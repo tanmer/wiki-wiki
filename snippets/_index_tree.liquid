@@ -1,0 +1,52 @@
+{% assign sub_page_count = page.children_in_list | size %}
+{% if sub_page_count > 0 %}
+  <li class="mt-3" x-data="{ open: true }">
+    <div class="flex items-center justify-between font-medium text-slate-800 dark:text-slate-200">
+      <div class="flex items-center space-x-3">
+        <span
+          @click.prevent="open = !open"
+          aria-haspopup="true"
+          :aria-expanded="open">
+          <svg
+            class="ml-2 fill-slate-400 shrink-0"
+            :class="{ 'rotate-90': open }"
+            width="8"
+            height="10"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 2 2.414.586 6.828 5 2.414 9.414 1 8l3-3z" />
+          </svg>
+        </span>
+        <a href="{{ page.path }}">
+          <span class="w-full line-clamp-1 md:w-auto md:max-w-md">{{ page.link_text }}</span>
+        </a>
+      </div>
+      <div class="hidden px-3 md:block grow">
+        <span class="block border-t border-slate-300"></span>
+      </div>
+      <div class="hidden md:block">
+
+      </div>
+    </div>
+    <!-- 3rd level -->
+    <ul
+      class="pl-4 mb-3 ml-1 border-l border-slate-200 dark:border-slate-800"
+      :class="{ 'hidden': !open }"
+      x-cloak>
+      {% for sub_page in page.children_in_list %}
+        {% render "index_tree", page: sub_page %}
+      {% endfor %}
+    </ul>
+  </li>
+{% else %}
+  <li class="mt-3">
+    <a class="flex items-center justify-between font-medium text-slate-800 dark:text-slate-200" href="{{ page.path }}">
+      <p class="w-full line-clamp-1 md:w-auto md:max-w-md">{{ page.link_text }}</p>
+      <div class="hidden px-3 md:block grow">
+        <span class="block border-t border-slate-300"></span>
+      </div>
+      <div class="hidden md:block">
+
+      </div>
+    </a>
+  </li>
+{% endif %}

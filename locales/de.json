@@ -1,0 +1,47 @@
+{
+  "theme_label": "Wiki",
+  "theme_description": "Wird zum Erstellen von Wikis, Hilfedokumentationen und Inhaltsportalen verwendet.",
+  "generic": {
+    "403": "403 Keine Zugriffsberechtigung",
+    "404": "404 Nicht gefunden",
+    "menu": "Speisekarte",
+    "theme": "Thema",
+    "close": "Schließen",
+    "back": "Zurück",
+    "search": "Suchen",
+    "popular_search": "Beliebte Suche",
+    "search_result": "entsprechendes Suchergebnis",
+    "index": "Heim",
+    "articles": "Artikel",
+    "read_more": "mehr lesen",
+    "empty": "Der Inhalt ist leer",
+    "sub_page_list": "Unterseiten",
+    "copyright": "Alle Rechte vorbehalten",
+    "published_at": "Veröffentlicht am",
+    "prev_page": "vorherige Seite",
+    "next_page": "Nächste Seite",
+    "hot_pages": "Heiße Besuchsartikel",
+    "newest_pages": "Neueste Artikel",
+    "get_started_pages": "Get Started",
+    "recommend_pages": "Recommend articles",
+    "channel_pages": "Channel Navigation",
+    "tags": "Stichworte"
+  },
+  "placeholders": {
+    "search": "Suche...",
+    "input_password": "Bitte geben Sie Ihr Passwort ein"
+  },
+  "buttons": {
+    "submit": "Einreichen",
+    "login": "Anmeldung",
+    "sso_login": "SSO-Anmeldung",
+    "baklib_login": "Anmeldung zum Baklib-Konto"
+  },
+  "prompts": {
+    "page_restricted": "Der Zugriff auf diese Seite ist nur mit Authentifizierung möglich"
+  },
+  "feedback": {
+    "title": "Geben Sie Feedback ab",
+    "input_placeholder": "Bitte geben Sie Feedback ein"
+  }
+}

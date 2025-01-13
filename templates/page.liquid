@@ -1,0 +1,181 @@
+{% comment %} 2024072管家婆需求： 新设计，左侧导航fixed固定 {% endcomment %}
+
+{% comment %} 左侧 NavBar只显示当前父级栏目，具体做法： nav_tree_path 添加一个 parent 参数即可。 {% endcomment %}
+{% unless page.parent.path == '/' %}
+  {% assign parent = page.parent %}
+{% else %}
+  {% assign parent = page %}
+{% endunless %}
+
+{% assign sub_pages = page.children_in_list %}
+{% assign sub_pages_size = sub_pages | size %}
+{% assign screen_width = site.settings.screen_width.value |  default: 'max-w-screen-xl' %}
+{% assign default_avatar_url = 'images/avatar.svg' | asset_url %}
+
+{% comment %} 页面内容部分 {% endcomment %}
+<main class="flex min-h-screen mx-auto {{ screen_width }} relative">
+
+  <!-- Bg Style -->
+  {% if site.settings.page_bg_type.value == '1'  %}
+    <div class="absolute inset-x-0 overflow-hidden -top-10 -z-10 transform-gpu blur-3xl sm:-top-80" aria-hidden="true">
+      <div class="relative left-[calc(50%-11rem)] aspect-[1200/800] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary to-secondary opacity-20 sm:left-[calc(50%-20rem)] sm:w-[82.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+  {% elsif site.settings.page_bg_type.value == '2' %}
+    <div class="absolute w-full h-full -z-10 bg-gradient-to-b from-primary/15 from-5% via-white via-20% to-accent/15 to-85% dark:from-primary dark:to-accent"></div>
+  {% endif %}
+
+  <div class="flex w-full" x-data="{ show_navtree: true }">
+    {% # 侧边栏 %}
+    {% # render 'sidebar', current_page: page %}
+    <div x-data="{ showSidebar: window.innerWidth >= 768 }">
+      <template x-if="showSidebar">
+        <div
+          x-show="show_navtree"
+          x-cloak
+          class="fixed top-20 w-72 z-50 hidden border-r md:block  border-slate-200 dark:border-gray-700"
+        >
+          <div
+            id="page-tree"
+            class="mr-0"
+          >
+            <div class="">
+              <ul class="pt-5 h-[calc(100vh-theme(spacing.16))] max-h-[calc(100vh-120px)]
+                  overflow-y-scroll
+                  [&::-webkit-scrollbar]:w-2
+                  [&::-webkit-scrollbar-track]:rounded-full
+                  [&::-webkit-scrollbar-track]:bg-gray-100
+                  [&::-webkit-scrollbar-thumb]:rounded-full
+                  [&::-webkit-scrollbar-thumb]:bg-gray-300
+                  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" 
+                  data-controller="navtree" data-navtree-target="menuList">
+                <turbo-frame
+                  src="{{ site.nav_tree_path | append: '?selected_ids=' | append: page.id }}"
+                  id="nav_tree"
+                ></turbo-frame>
+              </ul>
+            </div>
+          </div>
+          {% # 关闭侧边栏 %}
+          <div
+            class="absolute flex items-center justify-center w-10 h-10 bg-white border rounded-full cursor-pointer -right-5 top-0 dark:bg-slate-900 text-slate-800 dark:text-slate-500 border-slate-200 dark:border-gray-700 hover:bg-primary"
+            @click="show_navtree = !show_navtree"
+          >
+            <svg t="1697770917150" class="w-5 h-5 icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="13055" >
+              <path d="M754.346667 193.584762l51.687619 51.712-266.703238 266.581333 266.727619 266.849524-51.736381 51.687619-318.415238-318.561524L754.322286 193.584762z m-268.190477 0l51.68762 51.712-266.703239 266.581333 266.727619 266.849524-51.73638 51.687619L167.740952 511.878095 486.13181 193.584762z" p-id="13056" fill="currentColor"></path>
+            </svg>
+          </div>
+        </div>
+      </template>
+      {% # header中的树形菜单 %}
+      <template x-if="!showSidebar">
+        <div
+          x-show="header_navtree_show"
+          x-cloak
+          @click.outside="header_navtree_show=false"
+          class="fixed left-0 z-50 w-full px-4 overflow-hidden transition-all duration-300 transform top-24 sm:px-6"
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-[-10%]"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 translate-y-[-10%]"
+        >
+          <div class="w-full p-5 bg-white rounded shadow-lg text-slate-800 dark:bg-slate-900 dark:text-slate-200">
+            <div
+              id="page-tree"
+              class="overflow-y-scroll max-h-[calc(100vh-160px)]"
+            >
+              <div class="relative w-full overflow-x-auto">
+                <ul data-controller="navtree" data-navtree-target="menuList">
+                  <turbo-frame
+                    src="{{ site.nav_tree_path | append: '?selected_ids=' | append: page.id }}"
+                    id="nav_tree"
+                  ></turbo-frame>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+    {% # 打开侧边栏 %}
+    <div
+      x-show="!show_navtree"
+      x-cloak
+      @click="show_navtree=true"
+      class="fixed px-3 py-1 bg-white hover:bg-primary border rounded-r-full cursor-pointer dark:bg-slate-900 text-slate-800 dark:text-slate-500 border-slate-200 dark:border-gray-700 top-20 2xl:top-28 -left-1"
+    >
+      <svg t="1697770917150" class="w-5 h-5 rotate-180 icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="13055">
+        <path d="M754.346667 193.584762l51.687619 51.712-266.703238 266.581333 266.727619 266.849524-51.736381 51.687619-318.415238-318.561524L754.322286 193.584762z m-268.190477 0l51.68762 51.712-266.703239 266.581333 266.727619 266.849524-51.73638 51.687619L167.740952 511.878095 486.13181 193.584762z" p-id="13056" fill="currentColor"></path>
+      </svg>
+    </div>
+    {%# page_list 内页列表点击 URL 不改变，需要添加 data-turbo-action="advance" %}
+    <turbo-frame id="main-content" data-turbo-action="advance" class="grow lg:pl-6 lg:pr-6 xl:pr-0 p-4 mt-4 md:mt-8" :class="show_navtree ? 'md:ml-72' : 'md:ml-0' ">
+      <div class="min-h-[calc(100vh-120px)] flex flex-col">
+        {% # 面包屑导航 %}
+        <div class="mb-3 max-w-3xl">
+          {% render 'breadcrumb', breadcrumb: page.breadcrumb  %}
+        </div>
+        {% if page.settings.show_list %}
+          {% render 'page_list', page: page, pages: sub_pages %}
+        {% else %}
+          {% render 'page', page: page, default_avatar_url: default_avatar_url %}
+        {% endif %}
+      </div>
+      {% render 'footer', settings: site.settings %}
+    </turbo-frame>
+  </div>
+</main>
+
+{% schema %}
+  {
+    "name": "Page",
+    "description": "The content page template",
+    "thumb_url": "images/theme/page.png",
+    "sub_page_templates": ["page"],
+    "settings": [
+      {
+        "id": "show_list",
+        "type": "checkbox",
+        "default": "false",
+        "label": "栏目",
+        "info": "作为栏目页面，只显示子页面列表"
+      },
+      {
+        "id": "title",
+        "type": "text",
+        "readonly": true,
+        "label": "标题",
+        "info": "知识库同步，不可编辑"
+      },
+      {
+        "id": "tags",
+        "type": "tag_picker",
+        "multiple": true,
+        "label": "t:settings_schema.page.settings.tags.label"
+      },
+      {
+        "id": "description",
+        "type": "textarea",
+        "label": "t:settings_schema.page.settings.description.label"
+      },
+      {
+        "id": "icon",
+        "type": "image_picker",
+        "ratio": "1:1",
+        "width": 100,
+        "label": "t:settings_schema.page.settings.icon.label",
+        // "required": true, 如果必填就用这个参数
+        "info": "t:settings_schema.page.settings.icon.info"
+      },
+      {
+        "id": "content",
+        "type": "richtext",
+        "label": "t:settings_schema.page.settings.content.label",
+        "readonly": true,
+        "info": "t:settings_schema.page.settings.content.info"
+      }
+    ]
+  }
+{% endschema %}

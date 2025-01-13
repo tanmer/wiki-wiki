@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="{{ site.language }}" class="scroll-smooth">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% meta_tags %}
+    {{ 'css/viewer.min.css' | asset_url | stylesheet_tag: data-turbo-track: 'reload' }}
+    {{ 'javascripts/main.js' | asset_url | script_tag: defer: true, data-turbo-track: 'reload' }}
+    {{ 'css/main.css' | asset_url | stylesheet_tag: data-turbo-track: 'reload' }}
+
+    {%# TIPS：在低代码平台开发时，请打开下一行代码注释 %}
+    {% if false %}{{ 'javascripts/cdn.tailwindcss.js' | asset_url | script_tag: data-turbo-track: 'reload' }} {% endif %}
+    {{ site.settings.head_html }}
+  </head>
+  <body class="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-200" id="js-body" data-controller="theme" x-data="{ header_navtree_show: false }">
+    <!-- Page wrapper -->
+    <div
+      class="flex flex-col min-h-screen overflow-auto"
+      x-data="{ scrolled: false }"
+      x-init="
+        window.addEventListener('scroll', () => {
+          scrolled = window.scrollY > window.innerHeight;
+        });
+      "
+    >
+      {% render 'header', settings: site.settings %}
+      <div class="pt-10 md:pt-16">{{ content_for_layout }}</div>
+      {%# render 'footer', settings: site.settings %}
+
+      {% # 回到顶部图标 %}
+      <button
+        x-show="scrolled"
+        x-cloak
+        @click="
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        "
+        class="fixed z-50 flex items-center justify-center w-10 h-10 rounded-full bottom-4 right-4 xl:w-16 xl:h-16 bg-slate-100 dark:bg-slate-600 hover:bg-primary"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 33L24 21L36 33" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 13H36" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    {% comment %} 添加挂件
+      {% render 'plugins' %} {% endcomment %}
+  </body>
+</html>

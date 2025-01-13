@@ -1,0 +1,98 @@
+<article class="mx-auto w-full flex justify-between xl:space-x-12">
+  <div class="flex flex-col w-full">
+    <h1 class="flex items-center mb-2 text-2xl font-bold sm:text-3xl xl:text-4xl text-slate-800 dark:text-slate-200">
+      {{ page.settings.title }}
+    </h1>
+
+    <div>
+      <div class="flex items-center space-x-2">
+        {% if site.settings.is_allow_author %}
+          <img src="{{ page.author.avatar_url | default: default_avatar_url }}" class="w-8 h-8 rounded-full" />
+        {% endif %}
+        <div>
+          {% if site.settings.is_allow_author %}
+            <p class="text-lead line-clamp-2 mb-[3px] text-gray-900 dark:text-gray-500 text-heading-6">
+              {{ page.author.name }}
+            </p>
+          {% endif %}
+          {% if site.settings.is_allow_published_at %}
+            <p class="text-sm text-gray-500 text-md">{{ 'generic.published_at' | t }}: {{ page.published_at | date: "%Y-%m-%d" }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+    {% if page.settings.tags.size > 0 %}
+      <div class="flex flex-wrap items-center gap-4 my-2 md:my-4">
+        <span>{{ 'generic.tags' | t }}：</span>
+        {% for tag in page.settings.tags %}
+          <a
+            href="{{ tag.path }}"
+            data-turbo-frame="_top"
+            class="inline-flex items-center transition-all duration-200 hover:-translate-y-[2px]"
+          >
+            {% render 'tag', tag: tag %}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if page.settings.description %}
+      <figure class="p-4 my-2 border-l-2 rounded-md border-primary bg-slate-100 dark:bg-slate-800">
+        <blockquote class="font-semibold text-gray-500">
+          <p>{{ page.settings.description }}</p>
+        </blockquote>
+      </figure>
+    {% endif %}
+
+    {% # 跟后台editor保持一致，去掉了 prose sm:prose-base lg:prose-md focus:outline-none dark:prose-invert prose-a:text-blue-600 %}
+    <div class="mt-4 flow-root">
+      <div class="overflow-x-auto">
+        <div data-controller="view_images" class="ProseMirror break-words">
+          {{ page.settings.content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<div class="border-t border-primary-300 py-4">
+  {% paginate_tag pages %}
+    <ul role="list" class="divide-y divide-gray-100">
+      {% for page in pages %}
+        <li class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 px-3 py-2 rounded-lg sm:flex-nowrap hover:bg-slate-100">
+          <div>
+            <p class="leading-6 flex">
+              {% if page.settings.icon %}
+                <span class="mr-4"><img src="{{ page.settings.icon }}" class="h-6" /> </span>
+              {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6 w-5 h-5 mr-1">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z">
+                  </path>
+                </svg>
+              {% endif %}
+              <a href="{{ page.path }}" class="hover:underline">{{ page.link_text }}</a>
+            </p>
+            <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+              {% if site.settings.is_allow_published_at %}
+                <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
+                  <circle cx="1" cy="1" r="1"></circle>
+                </svg>
+                <p><time datetime="{{ page.published_at }}">{{ 'generic.published_at' | t }}: {{ page.published_at | date: "%Y-%m-%d" }}</time></p>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    <!-- Pagination -->
+    <div class="mt-8">
+      <div class="flex justify-center">
+        {% render 'paginate', paginate: paginate %}
+      </div>
+    </div>
+  {% endpaginate_tag %}
+</div>

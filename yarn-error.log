@@ -1,0 +1,54 @@
+Arguments: 
+  /home/song/.asdf/installs/nodejs/18.12.1/bin/node /home/song/.asdf/installs/nodejs/18.12.1/bin/yarn
+
+PATH: 
+  /home/song/.asdf/plugins/nodejs/shims:/home/song/.asdf/installs/nodejs/18.12.1/bin:/home/song/.bun/bin:/home/song/.asdf/shims:/home/song/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Microsoft VS Code/bin:/mnt/c/Users/song/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/song/AppData/Local/atom/bin:/mnt/c/Users/song/AppData/Local/Microsoft/WindowsApps:/usr/local/go/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.12.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: Client network socket disconnected before secure TLS connection was established
+      at connResetException (node:internal/errors:711:14)
+      at TLSSocket.onConnectEnd (node:_tls_wrap:1593:19)
+      at TLSSocket.emit (node:events:525:35)
+      at endReadableNT (node:internal/streams/readable:1359:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+    "name": "blog",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+      "build": "npm-run-all --parallel build:css build:js",
+      "build:css": "npx tailwindcss -i ./src/main.css -o ./assets/css/main.css",
+      "build:js": "npx esbuild ./src/main.js --bundle --minify --outfile=./assets/javascripts/main.js",
+      "dev": "npm-run-all --parallel 'build:css -- --watch' 'build:js -- --watch'"
+    },
+    "devDependencies": {
+      "esbuild": "^0.19.3",
+      "npm-run-all": "^4.1.5",
+      "tailwindcss": "^3.3.3",
+      "viewerjs": "^1.11.6"
+    },
+    "dependencies": {
+      "@alpinejs/collapse": "^3.13.0",
+      "@hotwired/stimulus": "^3.2.2",
+      "@hotwired/turbo": "^7.3.0",
+      "alpinejs": "^3.13.0",
+      "stimulus-dropdown": "^2.1.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

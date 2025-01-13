@@ -1,0 +1,20 @@
+{% comment %}
+  @params breadcrumb
+    array of objects with keys:
+      link_text: string
+      path: string
+{% endcomment %}
+<ul class="list-none text-gray-400 text-xs flex items-center space-x-1">
+  {% for crumb in breadcrumb %}
+    <li>
+      <div class="flex items-center">
+        {% if forloop.index0 > 0 %}
+        <svg class="h-5 w-5 flex-shrink-0 text-gray-300" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+        </svg>
+        {% endif %}
+        <a href="{{ crumb.path }}" data-turbo-frame="_top" class="break-all">{{ crumb.link_text }}</a>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

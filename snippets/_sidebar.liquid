@@ -1,0 +1,12 @@
+<div class="relative">
+  <div
+    class="mr-0 w-72 sticky-block"
+  >
+    <div class="relative w-full pr-2 overflow-x-auto">
+      <div class="pt-8">
+        {% assign pages = site.pages['/'].children_in_nav_menu %}
+        {% render 'tree', pages: pages %}
+      </div>
+    </div>
+  </div>
+</div>

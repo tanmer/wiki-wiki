@@ -1,0 +1,48 @@
+{
+  "theme_label": "Wiki",
+  "theme_description": "Utilisé pour créer des wikis, de la documentation d'aide et des portails de contenu.",
+  "generic": {
+    "403": "403 Aucune autorisation d'accès",
+    "404": "404 introuvable",
+    "menu": "Menu",
+    "theme": "Thème",
+    "close": "Fermer",
+    "back": "Dos",
+    "search": "Recherche",
+    "popular_search": "Recherche populaire",
+    "search_result": "résultat de recherche associé",
+    "index": "Maison",
+    "articles": "des articles",
+    "read_more": "En savoir plus",
+    "empty": "le contenu est vide",
+    "sub_page_list": "Sous-pages",
+    "copyright": "Tous droits réservés",
+    "published_at": "Posté sur",
+    "prev_page": "page précédente",
+    "next_page": "page suivante",
+    "hot_pages": "Articles de visite chauds",
+    "newest_pages": "Articles les plus récents",
+    "get_started_pages": "Get Started",
+    "recommend_pages": "Recommend articles",
+    "channel_pages": "Channel Navigation",
+    "recent_pages": "Articles récents",
+    "tags": "Mots clés"
+  },
+  "placeholders": {
+    "search": "Recherche..",
+    "input_password": "Veuillez saisir votre mot de passe"
+  },
+  "buttons": {
+    "submit": "Soumettre",
+    "login": "Se connecter",
+    "sso_login": "Connexion SSO",
+    "baklib_login": "Connexion au compte Baklib"
+  },
+  "prompts": {
+    "page_restricted": "Cette page n'est accessible qu'avec authentification"
+  },
+  "feedback": {
+    "title": "Soumettre des commentaires",
+    "input_placeholder": "Veuillez saisir vos commentaires"
+  }
+}

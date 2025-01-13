@@ -1,0 +1,150 @@
+{% assign screen_width = site.settings.screen_width.value |  default: 'max-w-screen-xl' %}
+
+<header>
+  <div
+    id="header"
+    class="fixed z-10 w-full h-12 md:h-16 border-b  bg-opacity-70 border-slate-200 backdrop-blur dark:bg-slate-900 dark:border-slate-800 print:hidden"
+    x-data="{ search_show: false, search_button_show: false }"
+    x-init="search_button_show = (window.location.pathname !== '/')"
+  >
+    <div class="mx-auto {{ screen_width }} px-4 sm:px-6">
+      <div class="flex items-center justify-between h-12 md:h-16">
+        <!-- Site branding -->
+        <div class="grow">
+          <div class="flex items-center">
+            <!-- Logo -->
+            <a href="{{site.index_path}}" aria-label="{{ site.name }}" class="flex items-center">
+              {% assign logo = 'images/logo.png' | asset_url %}
+              <span><img src="{{ site.favicon_url | default: logo }}" class="h-8" alt="Docs" /></span>
+              <span class="hidden ml-2 text-xl font-bold text-slate-600 dark:text-slate-200 md:block">{{ site.name }}</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Desktop navigation -->
+        <nav class="flex">
+          <!-- Right side elements links -->
+          <ul class="flex flex-wrap items-center justify-end space-x-3 grow text-slate-600 dark:text-slate-200">
+            
+            {% # 导航菜单 %}
+            {% render 'custom_menu' %}
+
+            {% # 文章目录 %}
+            <li class="md:hidden" x-show="search_button_show" @click="header_navtree_show=!header_navtree_show" x-cloak>
+              <svg
+                t="1698303012711"
+                class="w-5 h-5 cursor-pointer icon"
+                viewBox="0 0 1024 1024"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                p-id="25018"
+              >
+                <path d="M192.037 287.953h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32zM192.028 543.17h638.608c17.673 0 32-14.327 32-32s-14.327-32-32-32H192.028c-17.673 0-32 14.327-32 32s14.327 32 32 32zM832.161 735.802H192.037c-17.673 0-32 14.327-32 32s14.327 32 32 32h640.124c17.673 0 32-14.327 32-32s-14.327-32-32-32z" fill="currentColor" p-id="25019"></path>
+              </svg>
+            </li>
+
+            <!-- Search -->
+            <li class="flex flex-col justify-center" x-show="search_button_show" x-cloak>
+              <button @click="search_show=!search_show;search_button_show=false" class="relative p-2 rounded-full cursor-pointer btn hover:bg-primary focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
+                <svg
+                  t="1698302846305"
+                  class="w-5 h-5 icon"
+                  viewBox="0 0 1024 1024"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  p-id="18493"
+                >
+                  <path d="M832 416C832 186.624 645.376 0 416 0 186.624 0 0 186.624 0 416 0 645.376 186.624 832 416 832 645.376 832 832 645.376 832 416zM416 768C221.888 768 64 610.112 64 416S221.888 64 416 64C610.112 64 768 221.888 768 416S610.112 768 416 768z" fill="currentColor" p-id="18494"></path><path d="M996.224 860.48l-173.248-178.752-45.952 44.544 173.632 179.136C956.672 911.36 960 919.424 960 928c0 8.576-3.328 16.64-9.344 22.656-12.416 12.416-32.768 12.48-45.568-0.32l-178.752-173.312-44.544 45.952 178.432 172.992C878.848 1014.656 903.424 1024 928 1024c24.576 0 49.152-9.408 67.904-28.096C1014.016 977.792 1024 953.664 1024 928 1024 902.336 1014.016 878.208 996.224 860.48z" fill="currentColor" p-id="18495"></path><path d="M235.136 234.944c-99.84 99.84-99.84 262.208 0 361.984L280.384 551.68c-74.816-74.816-74.816-196.608 0-271.488L235.136 234.944z" fill="currentColor" p-id="18496"></path>
+                </svg>
+              </button>
+            </li>
+
+            <!-- Lights switch -->
+            <li>
+              <div class="flex flex-col justify-center">
+                <input
+                  type="checkbox"
+                  name="light-switch"
+                  id="light-switch"
+                  class="sr-only light-switch"
+                  data-theme-target="checkbox"
+                  data-action="change->theme#toggle"
+                >
+                <label class="relative p-2 rounded-full cursor-pointer btn hover:bg-primary focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25" for="light-switch">
+                  <svg x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="hidden w-5 h-5 text-amber-400 dark:block" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.75 3.412a.818.818 0 01-.07.917 6.332 6.332 0 00-1.4 3.971c0 3.564 2.98 6.494 6.706 6.494a6.86 6.86 0 002.856-.617.818.818 0 011.1 1.047C19.593 18.614 16.218 21 12.283 21 7.18 21 3 16.973 3 11.956c0-4.563 3.46-8.31 7.925-8.948a.818.818 0 01.826.404z"></path>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="w-6 h-6 text-amber-400 dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="sr-only">Switch to light / dark version</span>
+                </label>
+              </div>
+            </li>
+            {% if current_user %}
+              <li>
+                <div data-controller="dropdown" class="relative">
+                  <button type="button" data-action="dropdown#toggle click@window->dropdown#hide">
+                    {% if current_user.image %}
+                      <img src="{{current_user.image}}" class="w-10 h-10 rounded-full">
+                    {% else %}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 rounded-full">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                    {% endif %}
+                  </button>
+                  <div
+                    data-dropdown-target="menu"
+                    class="hidden transition transform origin-top-right absolute right-0 rounded-md border border-slate-150 bg-white py-1.5 font-inter dark:border-navy-500 dark:bg-navy-700 px-2 min-w-[10rem] shadow-lg"
+                    data-transition-enter-from="opacity-0 scale-95"
+                    data-transition-enter-to="opacity-100 scale-100"
+                    data-transition-leave-from="opacity-100 scale-100"
+                    data-transition-leave-to="opacity-0 scale-95"
+                  >
+                    <div class="py-2 text-gray-700">{{ current_user.name }}</div>
+                    {% form_tag 'sign_out' %}
+                      <button type="submit" class="py-2 text-gray-700 hover:text-primary">退出登录</button>
+                    {% endform_tag %}
+                  </div>
+                </div>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+      {% # 搜索栏 %}
+      <div
+        class="w-full "
+        x-show="search_show"
+        x-cloak
+        @click.outside="search_show=false; search_button_show=true"
+      >
+        {% form_tag 'search', class: 'w-11/12 md:w-1/2 absolute top-5 z-20 left-1/2 -translate-x-1/2' %}
+        <div class="ml-4 grow md:ml-8">
+          <label class="relative flex">
+            <input
+              id="modal-search"
+              class="block w-full h-10 md:h-12 lg:h-14 pl-3 pr-10 transition duration-300 ease-in-out bg-white dark:text-primary border-2 border-primary rounded outline-none focus:ring-0 focus:border-primary sm:pl-12 sm:text-lg focus:bg-opacity-90"
+              type="search"
+              name="q"
+              value="{{ params.q }}"
+              placeholder="搜索"
+              autocomplete="off"
+            >
+            <div class="absolute right-0 flex items-center justify-center w-10 h-full pointer-events-none text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4.5 w-4.5 transition-colors duration-200"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M3.316 13.781l.73-.171-.73.171zm0-5.457l.73.171-.73-.171zm15.473 0l.73-.171-.73.171zm0 5.457l.73.171-.73-.171zm-5.008 5.008l-.171-.73.171.73zm-5.457 0l-.171.73.171-.73zm0-15.473l-.171-.73.171.73zm5.457 0l.171-.73-.171.73zM20.47 21.53a.75.75 0 101.06-1.06l-1.06 1.06zM4.046 13.61a11.198 11.198 0 010-5.115l-1.46-.342a12.698 12.698 0 000 5.8l1.46-.343zm14.013-5.115a11.196 11.196 0 010 5.115l1.46.342a12.698 12.698 0 000-5.8l-1.46.343zm-4.45 9.564a11.196 11.196 0 01-5.114 0l-.342 1.46c1.907.448 3.892.448 5.8 0l-.343-1.46zM8.496 4.046a11.198 11.198 0 015.115 0l.342-1.46a12.698 12.698 0 00-5.8 0l.343 1.46zm0 14.013a5.97 5.97 0 01-4.45-4.45l-1.46.343a7.47 7.47 0 005.568 5.568l.342-1.46zm5.457 1.46a7.47 7.47 0 005.568-5.567l-1.46-.342a5.97 5.97 0 01-4.45 4.45l.342 1.46zM13.61 4.046a5.97 5.97 0 014.45 4.45l1.46-.343a7.47 7.47 0 00-5.568-5.567l-.342 1.46zm-5.457-1.46a7.47 7.47 0 00-5.567 5.567l1.46.342a5.97 5.97 0 014.45-4.45l-.343-1.46zm8.652 15.28l3.665 3.664 1.06-1.06-3.665-3.665-1.06 1.06z"></path>
+              </svg>
+            </div>
+          </label>
+        </div>
+        {% endform_tag %}
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,75 @@
+{
+  "settings_schema": {
+    "generic": {
+      "name": "站点基本信息设置",
+      "help_center_index_description": "功能丰富的产品知识库样式",
+      "list_index_description": "首页目录列表样式",
+      "header_name": "页头页尾导航菜单",
+      "head_title": "Head HTML 配置",
+      "settings": {
+        "hero_image_url": {
+          "label": "首页背景大图",
+          "info": "用于部分主题首页的背景横幅，建议1900*600px的深色图片"
+        },
+        "title": {
+          "label": "站点标题"
+        },
+        "description": {
+          "label": "站点描述"
+        },
+        "hot_tags": {
+            "label": "热搜关键词（请用英文逗号「,」分隔）"
+        },
+        "copyright_info": {
+          "label": "备案/版权信息",
+          "default": "蜀ICP备15035023号"
+        },
+        "company_name": {
+          "label": "公司名称",
+          "default": "Baklib.cn"
+        },
+        "header_menu_html": {
+          "label": "Header页头导航菜单",
+          "info": "支持HTML标签和TailwindCss样式代码"
+        },
+        "features_one": {
+          "label": "自定义HTML块(features_one)",
+          "info": "支持HTML标签和TailwindCss样式代码"
+        },
+        "features_two": {
+          "label": "自定义HTML块(features_two)",
+          "info": "支持HTML标签和TailwindCss样式代码"
+        },
+        "footer_menu_html": {
+          "label": "Footer页尾导航菜单",
+          "info": "支持HTML标签和TailwindCss样式代码"
+        },
+        "head_html": {
+          "label": "Head Meta HTML代码",
+          "info": "这部分内容会植入到站点的<head>标签内，请使用标准的 HTML 格式",
+          "placeholder": "<meta name='author' content='Baklib' />"
+        }
+      }
+    },
+    "page": {
+      "name": "页面",
+      "description": "文档内容页面",
+      "settings": {
+        "description":{
+          "label": "页面描述"
+        },
+        "content":{
+          "label": "内容",
+          "info": "同步自数据源，不可编辑"
+        },
+        "icon": {
+          "label": "页面图标",
+          "info": "用于显示页面图标，建议1:1比例"
+        },
+        "tags":{
+          "label": "标签"
+        }
+      }
+    }
+  }
+}

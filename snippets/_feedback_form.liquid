@@ -1,0 +1,53 @@
+<div id="feedback_form">
+  {% form_tag 'feedback', page: page %}
+    <div class="space-y-5 p-4">
+      <div class="text-center">{{ site.plugins.feedback.useful_label }}</div>
+      <div
+        class="flex items-center justify-center space-x-5" x-data="{ selected: '{{ page.last_feedback_emoji }}' }" >
+        {% if site.plugins.feedback.message_enabled %}
+          <div class="flex flex-wrap items-center justify-center space-x-5">
+            {% for useful_type in site.plugins.feedback.useful_types %}
+              <label
+                class="flex items-center p-1 space-x-1 border rounded"
+                :class="{ 'bg-gray-200 dark:bg-gray-700': selected === '{{ useful_type.emoji }}' }"
+                @click="selected = '{{ useful_type.emoji }}'">
+                <input
+                  type="radio"
+                  name="feedback[useful_type]"
+                  value="{{ useful_type.emoji }}"
+                  x-model="selected"
+                  class="hidden">
+                <div>{{ useful_type.emoji }}</div>
+                <div>{{ useful_type.label }}</div>
+              </label>
+            {% endfor %}
+          </div>
+        {% else %}
+          {% for useful_type in site.plugins.feedback.useful_types %}
+            <button name="feedback[useful_type]" value="{{ useful_type.emoji }}" :class="{ 'bg-gray-200': selected === '{{ useful_type.emoji }}' }">{{ useful_type.emoji }} {{ useful_type.label }}</button>
+          {% endfor %}
+        {% endif %}
+      </div>
+      {%# 反馈内容 %}
+      {% if site.plugins.feedback.message_enabled %}
+        {% if site.plugins.feedback.message_required %}
+          <div class="text-left">* 反馈内容</div>
+        {% endif %}
+        <div class="mt-5">
+          <textarea
+            class="w-full resize-none rounded-lg border border-slate-300 bg-transparent p-2.5 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-gray-700 dark:hover:border-navy-400 dark:focus:border-accent max-h-20"
+            name="feedback[message]"
+            placeholder="{{ 'feedback.input_placeholder' | t }}"></textarea>
+          {%# 提交按钮 %}
+          <div class="flex justify-end mt-5">
+            <input
+              type="submit"
+              class="inline-flex items-center justify-center px-5 py-2 tracking-wide text-center border rounded-lg cursor-pointer text-slate-900 dark:text-white text-slate-800 focus:outline-none disabled:pointer-events-none"
+              value="{{ 'buttons.submit' | t }}" />
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  {% endform_tag %}
+</div>

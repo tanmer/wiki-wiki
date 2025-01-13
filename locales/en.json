@@ -1,0 +1,48 @@
+{
+  "theme_label": "Wiki",
+  "theme_description": "Content synchronized from knowledge base, for Large-scale reusable document content management, like Wiki, Documentation, and content portal.",
+  "generic": {
+    "close": "Close",
+    "back": "Back",
+    "back_to": "Up one level",
+    "search": "Search",
+    "popular_search": "Popular Search",
+    "search_result": "related searching result",
+    "index": "Home",
+    "menu": "Menu",
+    "articles": "articles",
+    "read_more": "read more",
+    "404": "404 not found",
+    "403": "403 No access permission",
+    "empty": "content is empty",
+    "sub_page_list": "Sub Pages",
+    "copyright": "All rights reserved",
+    "published_at": "Published at",
+    "prev_page": "previous page",
+    "next_page": "next page",
+    "hot_pages": "Hottest articles",
+    "newest_pages": "Newest articles",
+    "get_started_pages": "Get Started",
+    "recommend_pages": "Recommend articles",
+    "channel_pages": "Channel Navigation",
+    "recent_pages": "Recent articles",
+    "tags": "Tags"
+  },
+  "placeholders": {
+    "search": "Ask a Question",
+    "input_password": "Please input your password"
+  },
+  "buttons": {
+    "submit": "Submit",
+    "login": "Login",
+    "sso_login": "SSO Login",
+    "baklib_login": "Baklib Account Login"
+  },
+  "prompts": {
+    "page_restricted": "This page can only be accessed with authentication"
+  },
+  "feedback": {
+    "title": "Submit Feedback",
+    "input_placeholder": "Please input feedback"
+  }
+}

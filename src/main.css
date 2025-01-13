@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@config '../tailwind.config.js'
+
+.page--article__link {
+  border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+:is(.dark .page--article__link) {
+  border-bottom: 1px solid #374151;
+}
+
+.page--article__link:hover {
+  text-decoration: none !important;
+}
+
+.page--article__link::after {
+  position: absolute;
+  content: '';
+  transition: 0.3s;
+  width: 0;
+  left: 50%;
+  bottom: -0.5px;
+  height: 1px;
+  background: rgb(var(--theme-color-primary));
+}
+
+.page--article__link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.breadcrumb-item {
+  font-size: 0.8rem;
+  color: rgb(158, 158, 158);
+}
+
+.breadcrumb-item + .breadcrumb-item {
+  padding-left: 0.25rem; }
+  .breadcrumb-item + .breadcrumb-item::before {
+    display: inline-block;
+    padding-right: 0.25rem;
+    color: #6c757d;
+    content: "/"; }
+
+.breadcrumb-item + .breadcrumb-item:hover::before {
+  text-decoration: underline; }
+
+.breadcrumb-item + .breadcrumb-item:hover::before {
+  text-decoration: none; }
+
+.scrollbar-hide::-webkit-scrollbar,
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  display: none
+}
+
+#page-tree li.active {
+  text-shadow: 0 0 rgba(0, 0, 0, 0);
+}
+
+#page-tree::-webkit-scrollbar,
+#page-tree::-webkit-scrollbar-thumb {
+  display: none
+}
+
+#page-tree::-webkit-scrollbar{
+  /* width: 7px;
+  background-color: #f6f6f6; */
+  display: none
+}
+
+#page-tree::-webkit-scrollbar-thumb {
+  /* box-shadow: inset 0 0 0 10px; */
+  display: none
+}
+
+.page-tree--node {
+  padding: 0.25rem 0;
+}
+
+.page-tree--node > a {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.page-tree--node.article > a {
+  padding-left: 1.5rem;
+}
+
+.active div > div > a.current {
+  /* color: var(--color-primary); */
+  color: blue;
+}
+
+.page-tree--node.active > a > .page-tree--nav__article_point {
+  display: flex;
+}
+
+/* 搜索关键词高亮 */
+.search-highlight-block b {
+  color: hsl(var(--theme-color-primary));
+}
+
+/* wiki保持跟editor样式同步，去掉了 tailwind prose */
+.ProseMirror {
+  @apply w-full max-w-4xl break-words;
+  /* 使分栏的宽度固定 */
+  [data-block-column-width="flex-1"] {
+    @apply w-1/2;
+  }
+  table {
+    @apply table-auto w-full !min-w-[640px];
+    /* daisyui: @apply table table-pin-rows table-pin-cols; */
+    /* baklib editor: @apply table-auto w-full table; */
+  }
+}

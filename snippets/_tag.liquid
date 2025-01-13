@@ -1,0 +1,9 @@
+{% if tag %}
+  <span
+    class="inline-block text-inherit px-1 py-0.5 border"
+    style="
+      background-color: hsl({{ tag.color_hls[0] }}, {{ tag.color_hls[1] }}%, 90%);
+      color: {{ tag.color }};
+    "
+  >{{ tag.name }}</span>
+{% endif %}
